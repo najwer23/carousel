@@ -77,25 +77,20 @@
             "#carousel1": {
                 isMousedownActive: false,
                 isMousemoveActive: false,
-
                 translationX: 0,
                 mouseStartX: 0,
                 children: null
             }
         }
-
-        const children = [...document.querySelector("#carousel1").childNodes];
         
         initCarousel();
 
         function initCarousel() {
-            let element;
             let carouselDataInKeys = Object.keys(carouselDataIn)
             
             for (let i = 0; i < carouselDataInKeys.length; i++) {
-                element = document.querySelector(carouselDataInKeys[i]);
-                if (element) {
-                    duplicateChild(element)
+                if (document.querySelector(carouselDataInKeys[i])) {
+                    duplicateChildren(carouselDataInKeys[i])
                     addMouseEventsToSlider(carouselDataInKeys[i]);
                 }
             }
@@ -169,17 +164,19 @@
                         carousel.style.transform = "translateX(" + carouselDataIn[nameOfElement].translationX + "px)";
                     }
 
-                    carouselDataIn[nameOfElement].mouseStartX = e.pageX
+                    carouselDataIn[nameOfElement].mouseStartX = e.pageX;
                 }
             });
         }
 
 
-        function duplicateChild(parent) {
-            let length = 20
-            for (let i = 0; i < length; i++) {
-                if (children[i].nodeType === document.ELEMENT_NODE) {
-                    parent.appendChild(children[i].cloneNode(true));
+        function duplicateChildren(nameOfElement) {
+            let parent = document.querySelector(nameOfElement)
+            carouselDataIn[nameOfElement].children = [...parent.childNodes];
+
+            for (let i = 0; i < carouselDataIn[nameOfElement].children.length; i++) {
+                if (carouselDataIn[nameOfElement].children[i].nodeType === document.ELEMENT_NODE) {
+                    parent.appendChild(carouselDataIn[nameOfElement].children[i].cloneNode(true));
                 }
             }
         };
