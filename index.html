@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html lang="PL">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mariusz Najwer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="author" content="Mariusz Najwer">
+    <meta name="description" content="Mariusz Najwer - carousel" />
+    <meta name="keywords" content="Mariusz Najwer, najwer23" />
+</head>
+
+<body>
+    <main>
+        <div class="carousel-container">
+            <div class="carousel-arrow left">L</div>
+            <div class="carousel-content">
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150"></picture></div>
+            </div>
+            <div class="carousel-arrow right">P</div>
+        </div>
+    </main>
+
+    <style>
+        body {
+            background: grey;
+        }
+    </style>
+
+    <script>
+
+/*
+    window.onload = function () {
+        var carousel = {
+            "#category-related-links": {
+                isDown: false,
+                startX: null,
+                scrollLeft: null,
+                isMove: false
+            }
+        }
+
+        initCarousel();
+
+        function initCarousel() {
+            let carouselKeys = Object.keys(carousel)
+            for (let i = 0; i < carouselKeys.length; i++) {
+                if (document.querySelector(carouselKeys[i])) {
+                    addMouseEventsToSlider(carouselKeys[i]);
+                }
+            }
+        }
+
+        function addMouseEventsToSlider(element) {
+            var slider = document.querySelector(element);
+
+            const links = document.querySelectorAll('a');
+            links.forEach(element => {
+                element.addEventListener('mousedown', function (e) {
+                    e.preventDefault();
+                })
+            })
+
+            //slider.scrollLeft += 20
+            slider.addEventListener('mousedown', function (e) {
+                carousel[element].isDown = true;
+                slider.classList.add('active');
+                carousel[element].startX = e.pageX - slider.offsetLeft;
+                carousel[element].scrollLeft = slider.scrollLeft;
+                carousel[element].isMove = false;
+
+                mouseDown = { x: e.clientX, y: e.clientY };
+            });
+
+            slider.addEventListener('mouseleave', function (e) {
+                carousel[element].isDown = false;
+                slider.classList.remove('active');
+            });
+
+            const preventClick = (e) => {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+
+            window.addEventListener('mouseup', function (e) {
+                carousel[element].isDown = false;
+                slider.classList.remove('active');
+
+                if (carousel[element].isMove) {
+                    slider.addEventListener("click", preventClick);
+                } else {
+                    slider.removeEventListener("click", preventClick);
+                }
+                carousel[element].isMove = false
+            });
+
+            window.addEventListener('mousemove', function (e) {
+                if (!carousel[element].isDown) {
+                    carousel[element].isMove = false;
+                    slider.removeEventListener("click", preventClick);
+                    return;
+                }
+
+                if (e.clientX !== mouseDown.x || e.clientY !== mouseDown.y) {
+                    carousel[element].isMove = true;
+                    e.preventDefault();
+                    const x = e.pageX - slider.offsetLeft;
+                    const walk = (x - carousel[element].startX) * 1; //scroll-fast
+                    slider.scrollLeft = carousel[element].scrollLeft - walk;
+                }
+            });
+        }
+    }
+    */
+        
+    </script>
+</body>
+
+</html>
