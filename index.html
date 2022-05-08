@@ -102,6 +102,18 @@
                 e.stopImmediatePropagation();
             }
 
+            const pointerEventToXY = function (e) {
+                var out = { x: 0, y: 0 };
+                if (e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel') {
+                    out.x = e.changedTouches[0].pageX;
+                    out.y = e.changedTouches[0].pageY;
+                } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover' || e.type == 'mouseout' || e.type == 'mouseenter' || e.type == 'mouseleave') {
+                    out.x = e.pageX;
+                    out.y = e.pageY;
+                }
+                return out;
+            };
+
             const carousel = document.querySelector(nameOfElement);
 
             //firefox bug fix
@@ -109,21 +121,23 @@
                 item.addEventListener('mousedown', (e) => e.preventDefault())
             })
 
-            carousel.addEventListener('mousedown', function (e) {
+            addListenerMulti(carousel, 'mousedown touchstart', function (e) {
                 carousel.classList.add('active');
                 
                 carouselDataIn[nameOfElement].isMousedownActive = true;  
                 carouselDataIn[nameOfElement].isMousemoveActive = false;
-                carouselDataIn[nameOfElement].mouseStartX = e.pageX;
+                carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x
             });
 
-            carousel.addEventListener('mouseleave', function (e) {
+            
+            addListenerMulti(carousel, 'mouseleave touchcancel', function (e) {
                 carousel.classList.remove('active');
 
                 carouselDataIn[nameOfElement].isMousedownActive = false;
             });
 
-            carousel.addEventListener('mouseup', function (e) {
+             
+            addListenerMulti(carousel, 'mouseup touchend', function (e) {
                 carousel.classList.remove('active');
                 
                 carouselDataIn[nameOfElement].isMousedownActive = false;
@@ -137,7 +151,7 @@
                 carouselDataIn[nameOfElement].isMousemoveActive = false   
             });
 
-            carousel.addEventListener('mousemove', function (e) {
+            addListenerMulti(carousel, 'mousemove touchmove', function (e) {
                 if (!carouselDataIn[nameOfElement].isMousedownActive) {
                     carouselDataIn[nameOfElement].isMousemoveActive = false;
                     carousel.removeEventListener("click", preventClickOnDrag);
@@ -148,7 +162,7 @@
                     e.preventDefault();
 
                     carouselDataIn[nameOfElement].isMousemoveActive = true;
-                    carouselDataIn[nameOfElement].translationX = ((e.pageX - carouselDataIn[nameOfElement].mouseStartX) * 1) + carouselDataIn[nameOfElement].translationX;
+                    carouselDataIn[nameOfElement].translationX = ((pointerEventToXY(e).x - carouselDataIn[nameOfElement].mouseStartX) * 1) + carouselDataIn[nameOfElement].translationX;
                     
                     console.log("translationX", carouselDataIn[nameOfElement].translationX)
 
@@ -164,11 +178,31 @@
                         carousel.style.transform = "translateX(" + carouselDataIn[nameOfElement].translationX + "px)";
                     }
 
-                    carouselDataIn[nameOfElement].mouseStartX = e.pageX;
+                    carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x;
                 }
             });
+
+            // //mobile
+            // carousel.addEventListener("touchstart", function (e) {
+            //     console.log("touchstart")
+            // });
+
+            // carousel.addEventListener("touchend", function (e) {
+            //     console.log("touchend")
+            // });
+
+            // carousel.addEventListener("touchcancel", function (e) {
+            //     console.log("touchcancel")
+            // });
+
+            // carousel.addEventListener("touchmove", function (e) {
+            //     console.log("touchmove")
+            // });
         }
 
+        function addListenerMulti(el, s, fn) {
+            s.split(' ').forEach(e => el.addEventListener(e, fn, false));
+        }
 
         function duplicateChildren(nameOfElement) {
             let parent = document.querySelector(nameOfElement)
@@ -181,8 +215,7 @@
             }
         };
     }
-    
-        
+         
     </script>
 </body>
 
