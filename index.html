@@ -14,14 +14,20 @@
 <body>
     <main>
         <div class="carousel-container">
-            <div class="carousel-arrow left">L</div>
-            <div class="carousel-content">
-                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150"></picture></div>
-                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150"></picture></div>
-                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150"></picture></div>
-                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150"></picture></div>
+            <div id="slider-arrow-left" class="carousel-arrow left">L</div>
+            <div id="slider" class="carousel-content">
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=1"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=2"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=3"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=4"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=5"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=6"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=7"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=8"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=9"></picture></div>
+                <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=10"></picture></div>
             </div>
-            <div class="carousel-arrow right">P</div>
+            <div id="slider-arrow-right" class="carousel-arrow right">P</div>
         </div>
     </main>
 
@@ -29,21 +35,65 @@
         body {
             background: grey;
         }
+
+        .carousel-container {
+            position: relative;
+            display: flex;
+            width: 900px;
+            overflow: hidden;
+            background-color: green;
+        }
+
+        .carousel-arrow {
+            width: 50px;
+            background-color: lightblue;
+            opacity: 0.5;
+        }
+
+        .carousel-content {
+            display: flex;
+            /* transform: translateX(40%); */
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .carousel-arrow.left {
+            left: 0;
+        }
+
+        .carousel-arrow.right {
+            right: 0;
+        }
     </style>
 
     <script>
 
-/*
     window.onload = function () {
         var carousel = {
-            "#category-related-links": {
+            "#slider": {
                 isDown: false,
-                startX: null,
-                scrollLeft: null,
-                isMove: false
+                trans: 0,
+                isMove: false,
+                mouseStartX: 0,
+                mouseStopX: 0,
             }
         }
 
+        const children = [...document.querySelector("#slider").childNodes];
+    
+        function duplicateAppendChild(parent) {
+            let length = 20
+            for (let i=0; i< length; i++) {
+                if (children[i].nodeType === document.ELEMENT_NODE) {
+                    parent.appendChild(children[i].cloneNode(true));
+                }
+            }
+        };
+        
         initCarousel();
 
         function initCarousel() {
@@ -58,25 +108,27 @@
         function addMouseEventsToSlider(element) {
             var slider = document.querySelector(element);
 
-            const links = document.querySelectorAll('a');
+            duplicateAppendChild(slider)
+
+            const links = document.querySelectorAll('picture');
             links.forEach(element => {
                 element.addEventListener('mousedown', function (e) {
                     e.preventDefault();
                 })
             })
 
-            //slider.scrollLeft += 20
             slider.addEventListener('mousedown', function (e) {
-                carousel[element].isDown = true;
-                slider.classList.add('active');
-                carousel[element].startX = e.pageX - slider.offsetLeft;
-                carousel[element].scrollLeft = slider.scrollLeft;
-                carousel[element].isMove = false;
+               // console.log("mouseDown")
+               // console.log("down", e.pageX)
 
-                mouseDown = { x: e.clientX, y: e.clientY };
+                slider.classList.add('active');
+                carousel[element].isDown = true;  
+                carousel[element].isMove = false;
+                carousel[element].mouseStartX = e.pageX;
             });
 
             slider.addEventListener('mouseleave', function (e) {
+                console.log("mouseleave")
                 carousel[element].isDown = false;
                 slider.classList.remove('active');
             });
@@ -86,36 +138,50 @@
                 e.stopImmediatePropagation();
             }
 
-            window.addEventListener('mouseup', function (e) {
-                carousel[element].isDown = false;
+            slider.addEventListener('mouseup', function (e) {
                 slider.classList.remove('active');
+                carousel[element].isDown = false;
+                carousel[element].mouseStopX = e.pageX ;
 
                 if (carousel[element].isMove) {
                     slider.addEventListener("click", preventClick);
                 } else {
                     slider.removeEventListener("click", preventClick);
                 }
-                carousel[element].isMove = false
+
+                carousel[element].isMove = false   
+
+                duplicateAppendChild(slider)
             });
 
-            window.addEventListener('mousemove', function (e) {
+            slider.addEventListener('mousemove', function (e) {
+                //console.log("mousemove")
                 if (!carousel[element].isDown) {
                     carousel[element].isMove = false;
                     slider.removeEventListener("click", preventClick);
                     return;
                 }
 
-                if (e.clientX !== mouseDown.x || e.clientY !== mouseDown.y) {
+                if (carousel[element].isDown) {
                     carousel[element].isMove = true;
                     e.preventDefault();
-                    const x = e.pageX - slider.offsetLeft;
-                    const walk = (x - carousel[element].startX) * 1; //scroll-fast
-                    slider.scrollLeft = carousel[element].scrollLeft - walk;
+                    carousel[element].trans = ((e.pageX - carousel[element].mouseStartX) * 1) + carousel[element].trans;
+
+                    console.log(carousel[element].trans)
+
+                    if (carousel[element].trans > 0 ) {
+                        slider.style.transform = "translateX(" + -1500 + "px)";
+                        carousel[element].trans = -1500
+                    } else {
+                        slider.style.transform = "translateX(" + carousel[element].trans + "px)";
+                    }
+
+                    carousel[element].mouseStartX = e.pageX
                 }
             });
         }
     }
-    */
+    
         
     </script>
 </body>
