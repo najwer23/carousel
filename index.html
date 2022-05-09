@@ -9,6 +9,93 @@
     <meta name="author" content="Mariusz Najwer">
     <meta name="description" content="Mariusz Najwer - carousel" />
     <meta name="keywords" content="Mariusz Najwer, najwer23" />
+
+        <style>
+            body {
+                background: grey;
+            }
+        
+            .carousel-container {
+                position: relative;
+                display: flex;
+                width: 900px;
+                height: calc((100vw - (100vw - 900px)) * 0.25);
+                overflow: hidden;
+                background-color: rgba(0, 0, 0, 0.5);
+                border-radius: 10px;
+                padding-left: 50px;
+                padding-right: 50px;
+            }
+        
+            .carousel-content {
+                display: flex;
+            }
+        
+            .carousel-content img {
+                width: calc((100vw - (100vw - 900px)) * 0.25);
+            }
+        
+            .carousel-arrow {
+                width: 50px;
+                background-color: goldenrod;
+                position: absolute;
+                height: 100%;
+                z-index: 2;
+                color: black;
+                border: none;
+                font-size: 50px;
+                cursor: pointer;
+            }
+        
+            .carousel-arrow.left {
+                left: 0;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+        
+            .carousel-arrow.right {
+                right: 0;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+        
+            .carousel-item {
+                cursor: pointer;
+            }
+        
+            .carousel-progress-bar {
+                display: flex;
+                margin-top: 10px;
+            }
+        
+            .carousel-progress-bar-item {
+                width: 30px;
+                height: 15px;
+                margin-right: 5px;
+                background-color: blanchedalmond;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+        
+            .carousel-progress-bar-item.active {
+                background-color: goldenrod;
+            }
+        
+            div.carousel-progress-bar-item:last-of-type {
+                margin-right: 0;
+            }
+        
+            @media only screen and (max-width: 1000px) {
+                .carousel-container {
+                    width: calc((100vw - 16px - 100px));
+                    height: calc((100vw - 16px - 100px) * 0.333333333333);
+                }
+        
+                .carousel-content img {
+                    width: calc((100vw - 16px - 100px) * 0.333333333333);
+                }
+            }
+        </style>
 </head>
 
 <body>
@@ -27,93 +114,23 @@
                     <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=8"></picture></div>
                     <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=9"></picture></div>
                     <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=10"></picture></div>
+                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=11"></picture></div>
+                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=12"></picture></div>
                 </div>
                 <button class="carousel-arrow right">&#8250;</button>
             </div>
-            <div id="carousel1-progress-bar" class="carousel-progress-bar">
-                <div class="carousel-progress-bar-item active"></div>
-                <div class="carousel-progress-bar-item"></div>
-            </div> 
+            <div id="carousel1-progress-bar" class="carousel-progress-bar"></div> 
         </section>
         
+        <section style="margin-top: 50px;">
+            <p>
+                <a href="https://github.com/najwer23/carousel">https://github.com/najwer23/carousel</a>
+            </p>
+        </section>
+        
+        
+        
     </main>
-
-    <style>
-        body {
-            background: grey;
-        }
-
-        .carousel-container {
-            position: relative;
-            display: flex;
-            width: 900px;
-            height: 150px;
-            overflow: hidden;
-            background-color: rgba(0,0,0,0.5);
-            border-radius: 10px;
-        }
-
-        .carousel-content {
-            display: flex;
-            /* transform: translateX(40%); */
-        }
-
-        .carousel-arrow {
-            width: 50px;
-            background-color: rgba(0,0,0,0.5);
-            position: absolute;
-            height: 100%;
-            z-index: 2;
-            color: black;
-            border: none;
-            font-size: 50px;
-            cursor: pointer;
-        }
-
-        .carousel-arrow.left {
-            left: 0;
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-        }
-
-        .carousel-arrow.right {
-            right: 0;
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-
-        .carousel-item {
-            cursor: pointer;
-        }
-
-        .carousel-progress-bar {
-            display: flex;
-            margin-top: 10px;
-        }
-
-        .carousel-progress-bar-item {
-            width: 30px;
-            height: 15px;
-            margin-right: 5px;
-            background-color: blanchedalmond;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .carousel-progress-bar-item.active {
-            background-color: chocolate;
-        }
-
-        div.carousel-progress-bar-item:last-of-type {
-            margin-right: 0;
-        }
-
-        @media only screen and (max-width: 800px) {
-            .carousel-container {
-                width: 100%;
-            }
-        }
-    </style>
 
     <script>
 
@@ -139,15 +156,57 @@
                 if (document.querySelector(carouselDataInKeys[i])) {
                     duplicateChildren(carouselDataInKeys[i])
                     calculateWidthForCarousel(carouselDataInKeys[i]);
+                    calculateProgressBar(carouselDataInKeys[i])
                     addMouseEventsToSlider(carouselDataInKeys[i]);
                 }
+            }
+        }
+
+        function calculateProgressBar(nameOfElement) {
+            let progressBarContainer = document.querySelector(nameOfElement+"-progress-bar");
+            let numberOfRectangles = Math.ceil(carouselDataIn[nameOfElement].oneLenghtOfSlider / carouselDataIn[nameOfElement].oneFrame)
+            let div;
+
+            progressBarContainer.innerHTML = "";
+
+            for (let i=0; i<numberOfRectangles; i++) {
+                div = document.createElement("div")
+                div.id = "carousel-progress-bar-item-" + i;
+                div.className = "carousel-progress-bar-item";
+                if (i == 0) {
+                    div.classList.add("active")
+                    translationForProgressBar(0)
+                }
+                progressBarContainer.appendChild(div)
+            }
+
+            function translationForProgressBar(id) {
+                let translation = (-carouselDataIn[nameOfElement].oneFrame * id) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
+                document.querySelector(nameOfElement).style.transform = "translateX(" + translation + "px)";
+                carouselDataIn[nameOfElement].translationX = translation;
+            }
+
+            progressBarContainer.addEventListener("click", function(e) {
+                if (e.target.matches(".carousel-progress-bar-item")) {
+                    let id = e.target.id.match(/\d+/)[0]
+                    translationForProgressBar(id)
+                    removeActiveClassFromChildren(".carousel-progress-bar-item.active")
+                    e.target.classList.add("active")
+                }
+            })
+        }
+
+        function removeActiveClassFromChildren(name) {
+            let itemsWithActiveClass = document.querySelectorAll(name);
+            for (let i = 0; i < itemsWithActiveClass.length; i++) {
+                itemsWithActiveClass[i].classList.remove('active')
             }
         }
 
         function calculateWidthForCarousel(nameOfElement) {
             let carousel = document.querySelector(nameOfElement)
             carouselDataIn[nameOfElement].oneLenghtOfSlider = carousel.offsetWidth / 2;
-            carouselDataIn[nameOfElement].oneFrame = carousel.parentElement.offsetWidth
+            carouselDataIn[nameOfElement].oneFrame = carousel.parentElement.offsetWidth - 100
         }
 
         function addMouseEventsToSlider(nameOfElement) {            
@@ -192,6 +251,7 @@
 
             window.addEventListener('resize', function (event) {
                 calculateWidthForCarousel(nameOfElement)
+                calculateProgressBar(nameOfElement)
             });
 
             addListenerMulti(carousel, 'mousedown touchstart', function (e) {
@@ -199,7 +259,9 @@
                 
                 carouselDataIn[nameOfElement].isMousedownActive = true;  
                 carouselDataIn[nameOfElement].isMousemoveActive = false;
-                carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x
+                carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x;
+
+                removeActiveClassFromChildren(".carousel-progress-bar-item.active")
             });
 
             
