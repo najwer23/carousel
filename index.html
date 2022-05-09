@@ -254,14 +254,22 @@
                     let translation = (-carouselDataIn[nameOfElement].oneFrame + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
                     carousel.style.transform = "translateX(" + translation + "px)";
                     carouselDataIn[nameOfElement].translationX = translation;
+                    addClassActiveToProgressBar()
                 }
 
                 if (e.target.matches(".carousel-arrow.left")) {
                     let translation = (-(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame) + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
                     carousel.style.transform = "translateX(" + translation + "px)";
                     carouselDataIn[nameOfElement].translationX = translation;
+                    addClassActiveToProgressBar()
                 }
             })
+
+            function addClassActiveToProgressBar() {
+                let choosenframe = Math.ceil(Math.abs(carouselDataIn[nameOfElement].translationX / carouselDataIn[nameOfElement].oneFrame)) - 1;
+                removeActiveClassFromChildren(".carousel-progress-bar-item.active")
+                document.querySelector("#carousel-progress-bar-item-" + choosenframe).classList.add("active")
+            }
 
             //firefox bug fix
             carousel.querySelectorAll('.carousel-item').forEach(item => {
@@ -288,6 +296,8 @@
                 carousel.classList.remove('active');
 
                 carouselDataIn[nameOfElement].isMousedownActive = false;
+
+                addClassActiveToProgressBar() 
             });
 
              
@@ -302,7 +312,10 @@
                     carousel.removeEventListener("click", preventClickOnDrag);
                 }
 
-                carouselDataIn[nameOfElement].isMousemoveActive = false   
+                carouselDataIn[nameOfElement].isMousemoveActive = false;
+
+                addClassActiveToProgressBar() 
+
             });
 
             addListenerMulti(carousel, 'mousemove touchmove', function (e) {
