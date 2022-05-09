@@ -14,7 +14,7 @@
 <body>
     <main>
         <div class="carousel-container">
-            <button id="carousel1-arrow-left" class="carousel-arrow left">&#8249;</button>
+            <button class="carousel-arrow left">&#8249;</button>
             <div id="carousel1" class="carousel-content">
                 <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=1"></picture></div>
                 <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=2"></picture></div>
@@ -27,7 +27,7 @@
                 <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=9"></picture></div>
                 <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=10"></picture></div>
             </div>
-            <button id="carousel1-arrow-right" class="carousel-arrow right">&#8250;</button>
+            <button class="carousel-arrow right">&#8250;</button>
         </div>
     </main>
 
@@ -140,6 +140,21 @@
             };
 
             const carousel = document.querySelector(nameOfElement);
+            const carouselArrow = document.querySelector(".carousel-container");
+        
+            carouselArrow.addEventListener("click", function(e) {                              
+                if (e.target.matches(".carousel-arrow.right")) {
+                    let translation = (-carouselDataIn[nameOfElement].oneFrame + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
+                    carousel.style.transform = "translateX(" + translation + "px)";
+                    carouselDataIn[nameOfElement].translationX = translation;
+                }
+
+                if (e.target.matches(".carousel-arrow.left")) {
+                    let translation = (-(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame) + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
+                    carousel.style.transform = "translateX(" + translation + "px)";
+                    carouselDataIn[nameOfElement].translationX = translation;
+                }
+            })
 
             //firefox bug fix
             carousel.querySelectorAll('.carousel-item').forEach(item => {
