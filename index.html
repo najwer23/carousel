@@ -118,15 +118,15 @@
             }
 
             const pointerEventToXY = function (e) {
-                var out = { x: 0, y: 0 };
-                if (e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel') {
-                    out.x = e.changedTouches[0].pageX;
-                    out.y = e.changedTouches[0].pageY;
-                } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover' || e.type == 'mouseout' || e.type == 'mouseenter' || e.type == 'mouseleave') {
-                    out.x = e.pageX;
-                    out.y = e.pageY;
+                var coordinates = { x: 0, y: 0 };
+                if (e.type.includes("touch")) {
+                    coordinates.x = e.changedTouches[0].pageX;
+                    coordinates.y = e.changedTouches[0].pageY;
+                } else if (e.type.includes("mouse")) {
+                    coordinates.x = e.pageX;
+                    coordinates.y = e.pageY;
                 }
-                return out;
+                return coordinates;
             };
 
             const carousel = document.querySelector(nameOfElement);
