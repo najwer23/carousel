@@ -14,7 +14,7 @@
 <body>
     <main>
         <div class="carousel-container">
-            <div id="carousel-arrow-left" class="carousel-arrow left">L</div>
+            <div id="carousel1-arrow-left" class="carousel-arrow left">L</div>
             <div id="carousel1" class="carousel-content">
                 <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=1"></picture></div>
                 <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=2"></picture></div>
@@ -27,7 +27,7 @@
                 <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=9"></picture></div>
                 <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=10"></picture></div>
             </div>
-            <div id="carousel-arrow-right" class="carousel-arrow right">P</div>
+            <div id="carousel1-arrow-right" class="carousel-arrow right">P</div>
         </div>
     </main>
 
@@ -68,6 +68,12 @@
         .carousel-arrow.right {
             right: 0;
         }
+
+        @media only screen and (max-width: 800px) {
+            .carousel-container {
+                width: 100%;
+            }
+        }
     </style>
 
     <script>
@@ -79,7 +85,9 @@
                 isMousemoveActive: false,
                 translationX: 0,
                 mouseStartX: 0,
-                children: null
+                children: null,
+                oneLenghtOfSlider: 0,
+                oneFrame: 0
             }
         }
         
@@ -91,9 +99,16 @@
             for (let i = 0; i < carouselDataInKeys.length; i++) {
                 if (document.querySelector(carouselDataInKeys[i])) {
                     duplicateChildren(carouselDataInKeys[i])
+                    calculateWidthForCarousel(carouselDataInKeys[i]);
                     addMouseEventsToSlider(carouselDataInKeys[i]);
                 }
             }
+        }
+
+        function calculateWidthForCarousel(nameOfElement) {
+            let carousel = document.querySelector(nameOfElement)
+            carouselDataIn[nameOfElement].oneLenghtOfSlider = carousel.offsetWidth / 2;
+            carouselDataIn[nameOfElement].oneFrame = carousel.parentElement.offsetWidth
         }
 
         function addMouseEventsToSlider(nameOfElement) {            
@@ -120,6 +135,10 @@
             carousel.querySelectorAll('.carousel-item').forEach(item => {
                 item.addEventListener('mousedown', (e) => e.preventDefault())
             })
+
+            window.addEventListener('resize', function (event) {
+                calculateWidthForCarousel(nameOfElement)
+            });
 
             addListenerMulti(carousel, 'mousedown touchstart', function (e) {
                 carousel.classList.add('active');
@@ -164,16 +183,14 @@
                     carouselDataIn[nameOfElement].isMousemoveActive = true;
                     carouselDataIn[nameOfElement].translationX = ((pointerEventToXY(e).x - carouselDataIn[nameOfElement].mouseStartX) * 1) + carouselDataIn[nameOfElement].translationX;
                     
-                    console.log("translationX", carouselDataIn[nameOfElement].translationX)
-
-                    let oneLenghtOfSlider = carousel.offsetWidth / 2;
+                    //console.log("translationX", carouselDataIn[nameOfElement].translationX)
 
                     if (carouselDataIn[nameOfElement].translationX > 0 ) {
-                        carousel.style.transform = "translateX(" + -1500 + "px)";
-                        carouselDataIn[nameOfElement].translationX = -1500;
-                    } else if (carouselDataIn[nameOfElement].translationX < -2100 ) {
-                        carousel.style.transform = "translateX(" + -600 + "px)";
-                        carouselDataIn[nameOfElement].translationX = -600;
+                        carousel.style.transform = "translateX(" + -carouselDataIn[nameOfElement].oneLenghtOfSlider + "px)";
+                        carouselDataIn[nameOfElement].translationX = -carouselDataIn[nameOfElement].oneLenghtOfSlider;
+                    } else if (carouselDataIn[nameOfElement].translationX < -(carouselDataIn[nameOfElement].oneLenghtOfSlider + (carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame))) {
+                        carousel.style.transform = "translateX(" + -(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame) + "px)";
+                        carouselDataIn[nameOfElement].translationX = -(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame);
                     } else {
                         carousel.style.transform = "translateX(" + carouselDataIn[nameOfElement].translationX + "px)";
                     }
@@ -181,23 +198,6 @@
                     carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x;
                 }
             });
-
-            // //mobile
-            // carousel.addEventListener("touchstart", function (e) {
-            //     console.log("touchstart")
-            // });
-
-            // carousel.addEventListener("touchend", function (e) {
-            //     console.log("touchend")
-            // });
-
-            // carousel.addEventListener("touchcancel", function (e) {
-            //     console.log("touchcancel")
-            // });
-
-            // carousel.addEventListener("touchmove", function (e) {
-            //     console.log("touchmove")
-            // });
         }
 
         function addListenerMulti(el, s, fn) {
