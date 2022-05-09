@@ -45,7 +45,10 @@
                 border: none;
                 font-size: 50px;
                 cursor: pointer;
-                -webkit-text-size-adjust: unset;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                align-content: space-around;
             }
         
             .carousel-arrow.left {
@@ -103,7 +106,9 @@
     <main>
         <section>
             <div class="carousel-container">
-                <button class="carousel-arrow left">&#8249;</button>
+                <div class="carousel-arrow left">
+                    <div class="carousel-arrow left arrow-text">&#8249;</div>
+                </div>
                 <div id="carousel1" class="carousel-content">
                     <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=1"></picture></div>
                     <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=2"></picture></div>
@@ -118,7 +123,9 @@
                     <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=11"></picture></div>
                     <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=12"></picture></div>
                 </div>
-                <button class="carousel-arrow right">&#8250;</button>
+                <div class="carousel-arrow right">
+                    <div class="carousel-arrow right arrow-text">&#8250;</div>
+                </div>
             </div>
             <div id="carousel1-progress-bar" class="carousel-progress-bar"></div> 
         </section>
