@@ -266,7 +266,7 @@
             })
 
             function addClassActiveToProgressBar() {
-                let choosenframe = Math.ceil(Math.abs(carouselDataIn[nameOfElement].translationX / carouselDataIn[nameOfElement].oneFrame)) - 1;
+                let choosenframe = Math.floor(Math.abs(carouselDataIn[nameOfElement].translationX / carouselDataIn[nameOfElement].oneFrame) % (carouselDataIn[nameOfElement].oneLenghtOfSlider / carouselDataIn[nameOfElement].oneFrame));
                 removeActiveClassFromChildren(".carousel-progress-bar-item.active")
                 document.querySelector("#carousel-progress-bar-item-" + choosenframe).classList.add("active")
             }
@@ -287,8 +287,6 @@
                 carouselDataIn[nameOfElement].isMousedownActive = true;  
                 carouselDataIn[nameOfElement].isMousemoveActive = false;
                 carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x;
-
-                removeActiveClassFromChildren(".carousel-progress-bar-item.active")
             });
 
             
@@ -314,6 +312,7 @@
 
                 carouselDataIn[nameOfElement].isMousemoveActive = false;
 
+                removeActiveClassFromChildren(".carousel-progress-bar-item.active")
                 addClassActiveToProgressBar() 
 
             });
