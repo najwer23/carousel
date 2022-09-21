@@ -2,366 +2,357 @@
 <html lang="PL">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Mariusz Najwer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="author" content="Mariusz Najwer">
-    <meta name="description" content="Mariusz Najwer - carousel" />
-    <meta name="keywords" content="Mariusz Najwer, najwer23" />
+	<meta charset="UTF-8">
+	<title>Mariusz Najwer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="author" content="Mariusz Najwer">
+	<meta name="description" content="Mariusz Najwer - carousel" />
+	<meta name="keywords" content="Mariusz Najwer, najwer23" />
 
-        <style>
-            body {
-                background: grey;
-            }
-        
-            .carousel-container {
-                position: relative;
-                display: flex;
-                width: 900px;
-                height: calc((100vw - (100vw - 900px)) * 0.25);
-                overflow: hidden;
-                background-color: rgba(0, 0, 0, 0.5);
-                border-radius: 10px;
-                padding-left: 50px;
-                padding-right: 50px;
-            }
-        
-            .carousel-content {
-                display: flex;
-            }
-        
-            .carousel-content img {
-                width: calc((100vw - (100vw - 900px)) * 0.25);
-            }
-        
-            .carousel-arrow {
-                width: 50px;
-                background-color: goldenrod;
-                position: absolute;
-                height: 100%;
-                z-index: 2;
-                color: black;
-                border: none;
-                font-size: 50px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                align-content: space-around;
+	<style>
+		body {
+			background: grey;
+		}
 
-                -webkit-touch-callout: none; /* iOS Safari */
-                -webkit-user-select: none; /* Safari */
-                -khtml-user-select: none; /* Konqueror HTML */
-                -moz-user-select: none; /* Old versions of Firefox */
-                    -ms-user-select: none; /* Internet Explorer/Edge */
-                        user-select: none;
-            }
+		.carousel-container {
+			position: relative;
+			display: flex;
+			width: 900px;
+			height: 500px;
+			overflow: hidden;
+			background-color: rgba(0, 0, 0, 0.5);
+			border-radius: 10px;
+		}
 
-            .arrow-text {
-                margin-top: -11px;
-            }
-        
-            .carousel-arrow.left {
-                left: 0;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-            }
-        
-            .carousel-arrow.right {
-                right: 0;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-            }
-        
-            .carousel-item {
-                cursor: pointer;
-            }
-        
-            .carousel-progress-bar {
-                display: flex;
-                margin-top: 10px;
-            }
-        
-            .carousel-progress-bar-item {
-                width: 30px;
-                height: 15px;
-                margin-right: 5px;
-                background-color: blanchedalmond;
-                border-radius: 10px;
-                cursor: pointer;
-            }
-        
-            .carousel-progress-bar-item.active {
-                background-color: goldenrod;
-            }
-        
-            div.carousel-progress-bar-item:last-of-type {
-                margin-right: 0;
-            }
-        
-            @media only screen and (max-width: 1000px) {
-                .carousel-container {
-                    width: calc((100vw - 16px - 100px));
-                    height: calc((100vw - 16px - 100px) * 0.333333333333);
-                }
-        
-                .carousel-content img {
-                    width: calc((100vw - 16px - 100px) * 0.333333333333);
-                }
-            }
-        </style>
+		.carousel-content {
+			display: flex;
+		}
+
+		.carousel-content img {
+			width: 900px;
+			height: 500px;
+		}
+
+		.carousel-arrow {
+			width: 50px;
+			background-color: goldenrod;
+			position: absolute;
+			height: 100%;
+			z-index: 2;
+			color: black;
+			border: none;
+			font-size: 50px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			align-content: space-around;
+
+			-webkit-touch-callout: none;
+			/* iOS Safari */
+			-webkit-user-select: none;
+			/* Safari */
+			-khtml-user-select: none;
+			/* Konqueror HTML */
+			-moz-user-select: none;
+			/* Old versions of Firefox */
+			-ms-user-select: none;
+			/* Internet Explorer/Edge */
+			user-select: none;
+		}
+
+		.arrow-text {
+			margin-top: -11px;
+		}
+
+		.carousel-arrow.left {
+			left: 0;
+			border-top-left-radius: 10px;
+			border-bottom-left-radius: 10px;
+		}
+
+		.carousel-arrow.right {
+			right: 0;
+			border-top-right-radius: 10px;
+			border-bottom-right-radius: 10px;
+		}
+
+		.carousel-item {
+			cursor: pointer;
+		}
+
+		.carousel-progress-bar {
+			display: flex;
+			margin-top: 10px;
+		}
+
+		.carousel-progress-bar-item {
+			width: 30px;
+			height: 15px;
+			margin-right: 5px;
+			background-color: blanchedalmond;
+			border-radius: 10px;
+			cursor: pointer;
+		}
+
+		.carousel-progress-bar-item.active {
+			background-color: goldenrod;
+		}
+
+		div.carousel-progress-bar-item:last-of-type {
+			margin-right: 0;
+		}
+
+	</style>
 </head>
 
 <body>
-    <main>
-        <section>
-            <div class="carousel-container">
-                <div class="carousel-arrow left">
-                    <div class="carousel-arrow left arrow-text">&#8249;</div>
-                </div>
-                <div id="carousel1" class="carousel-content">
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=1"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=2"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=3"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=4"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=5"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=6"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=7"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=8"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=9"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=10"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=11"></picture></div>
-                    <div class="carousel-item"><picture><img src="https://via.placeholder.com/150?text=12"></picture></div>
-                </div>
-                <div class="carousel-arrow right">
-                    <div class="carousel-arrow right arrow-text">&#8250;</div>
-                </div>
-            </div>
-            <div id="carousel1-progress-bar" class="carousel-progress-bar"></div> 
-        </section>
-        
-        <section style="margin-top: 50px;">
-            <p>
-                <a href="https://github.com/najwer23/carousel">https://github.com/najwer23/carousel</a>
-            </p>
-        </section>
-        
-        
-        
-    </main>
+	<main>
+		<section>
+			<div class="carousel-container">
+				<div class="carousel-arrow left">
+					<div class="carousel-arrow left arrow-text">&#8249;</div>
+				</div>
+				<div id="carousel1" class="carousel-content">
+					<div class="carousel-item">
+						<picture><img src="https://via.placeholder.com/150/0000FF/808080?text=1?color=red"></picture>
+					</div>
+					<div class="carousel-item">
+						<picture><img src="https://via.placeholder.com/150?text=2"></picture>
+					</div>
+					<div class="carousel-item">
+						<picture><img src="https://via.placeholder.com/150?text=3"></picture>
+					</div>
+				</div>
+				<div class="carousel-arrow right">
+					<div class="carousel-arrow right arrow-text">&#8250;</div>
+				</div>
+			</div>
+			<div id="carousel1-progress-bar" class="carousel-progress-bar"></div>
+		</section>
 
-    <script>
+		<section style="margin-top: 50px;">
+			<p>
+				<a href="https://github.com/najwer23/carousel">https://github.com/najwer23/carousel</a>
+			</p>
+		</section>
 
-    window.onload = function () {
-        var carouselDataIn = {
-            "#carousel1": {
-                isMousedownActive: false,
-                isMousemoveActive: false,
-                translationX: 0,
-                mouseStartX: 0,
-                children: null,
-                oneLenghtOfSlider: 0,
-                oneFrame: 0
-            }
-        }
-        
-        initCarousel();
 
-        function initCarousel() {
-            let carouselDataInKeys = Object.keys(carouselDataIn)
-            
-            for (let i = 0; i < carouselDataInKeys.length; i++) {
-                if (document.querySelector(carouselDataInKeys[i])) {
-                    duplicateChildren(carouselDataInKeys[i])
-                    calculateWidthForCarousel(carouselDataInKeys[i]);
-                    calculateProgressBar(carouselDataInKeys[i])
-                    addMouseEventsToSlider(carouselDataInKeys[i]);
-                }
-            }
-        }
 
-        function calculateProgressBar(nameOfElement) {
-            let progressBarContainer = document.querySelector(nameOfElement+"-progress-bar");
-            let numberOfRectangles = Math.ceil(carouselDataIn[nameOfElement].oneLenghtOfSlider / carouselDataIn[nameOfElement].oneFrame)
-            let div;
+	</main>
 
-            progressBarContainer.innerHTML = "";
+	<script>
 
-            for (let i=0; i<numberOfRectangles; i++) {
-                div = document.createElement("div")
-                div.id = "carousel-progress-bar-item-" + i;
-                div.className = "carousel-progress-bar-item";
-                if (i == 0) {
-                    div.classList.add("active")
-                    translationForProgressBar(0)
-                }
-                progressBarContainer.appendChild(div)
-            }
+		window.onload = function () {
+			var carouselDataIn = {
+				"#carousel1": {
+					isMousedownActive: false,
+					isMousemoveActive: false,
+					translationX: 0,
+					mouseStartX: 0,
+					children: null,
+					oneLenghtOfSlider: 0,
+					oneFrame: 0
+				}
+			}
 
-            function translationForProgressBar(id) {
-                let translation = (-carouselDataIn[nameOfElement].oneFrame * id) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
-                document.querySelector(nameOfElement).style.transform = "translateX(" + translation + "px)";
-                carouselDataIn[nameOfElement].translationX = translation;
-            }
+			initCarousel();
 
-            progressBarContainer.addEventListener("click", function(e) {
-                if (e.target.matches(".carousel-progress-bar-item")) {
-                    let id = e.target.id.match(/\d+/)[0]
-                    translationForProgressBar(id)
-                    removeActiveClassFromChildren(".carousel-progress-bar-item.active")
-                    e.target.classList.add("active")
-                }
-            })
-        }
+			function initCarousel() {
+				let carouselDataInKeys = Object.keys(carouselDataIn)
 
-        function removeActiveClassFromChildren(name) {
-            let itemsWithActiveClass = document.querySelectorAll(name);
-            for (let i = 0; i < itemsWithActiveClass.length; i++) {
-                itemsWithActiveClass[i].classList.remove('active')
-            }
-        }
+				for (let i = 0; i < carouselDataInKeys.length; i++) {
+					if (document.querySelector(carouselDataInKeys[i])) {
+						duplicateChildren(carouselDataInKeys[i])
+						calculateWidthForCarousel(carouselDataInKeys[i]);
+						calculateProgressBar(carouselDataInKeys[i])
+						addMouseEventsToSlider(carouselDataInKeys[i]);
+					}
+				}
+			}
 
-        function calculateWidthForCarousel(nameOfElement) {
-            let carousel = document.querySelector(nameOfElement)
-            carouselDataIn[nameOfElement].oneLenghtOfSlider = carousel.offsetWidth / 2;
-            carouselDataIn[nameOfElement].oneFrame = carousel.parentElement.offsetWidth - 100
-        }
+			function calculateProgressBar(nameOfElement) {
+				let progressBarContainer = document.querySelector(nameOfElement + "-progress-bar");
+				let numberOfRectangles = Math.ceil(carouselDataIn[nameOfElement].oneLenghtOfSlider / carouselDataIn[nameOfElement].oneFrame)
+				let div;
 
-        function addMouseEventsToSlider(nameOfElement) {            
-            const preventClickOnDrag = (e) => {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-            }
+				progressBarContainer.innerHTML = "";
 
-            const pointerEventToXY = function (e) {
-                var coordinates = { x: 0, y: 0 };
-                if (e.type.includes("touch")) {
-                    coordinates.x = e.changedTouches[0].pageX;
-                    coordinates.y = e.changedTouches[0].pageY;
-                } else if (e.type.includes("mouse")) {
-                    coordinates.x = e.pageX;
-                    coordinates.y = e.pageY;
-                }
-                return coordinates;
-            };
+				for (let i = 0; i < numberOfRectangles; i++) {
+					div = document.createElement("div")
+					div.id = "carousel-progress-bar-item-" + i;
+					div.className = "carousel-progress-bar-item";
+					if (i == 0) {
+						div.classList.add("active")
+						translationForProgressBar(0)
+					}
+					progressBarContainer.appendChild(div)
+				}
 
-            const carousel = document.querySelector(nameOfElement);
-            const carouselContainer = document.querySelector(".carousel-container");
-        
-            carouselContainer.addEventListener("click", function(e) {                              
-                if (e.target.matches(".carousel-arrow.right")) {
-                    let translation = (-carouselDataIn[nameOfElement].oneFrame + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
-                    carousel.style.transform = "translateX(" + translation + "px)";
-                    carouselDataIn[nameOfElement].translationX = translation;
-                    addClassActiveToProgressBar()
-                }
+				function translationForProgressBar(id) {
+					let translation = (-carouselDataIn[nameOfElement].oneFrame * id) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
+					document.querySelector(nameOfElement).style.transform = "translateX(" + translation + "px)";
+					carouselDataIn[nameOfElement].translationX = translation;
+				}
 
-                if (e.target.matches(".carousel-arrow.left")) {
-                    let translation = (-(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame) + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
-                    carousel.style.transform = "translateX(" + translation + "px)";
-                    carouselDataIn[nameOfElement].translationX = translation;
-                    addClassActiveToProgressBar()
-                }
-            })
+				progressBarContainer.addEventListener("click", function (e) {
+					if (e.target.matches(".carousel-progress-bar-item")) {
+						let id = e.target.id.match(/\d+/)[0]
+						translationForProgressBar(id)
+						removeActiveClassFromChildren(".carousel-progress-bar-item.active")
+						e.target.classList.add("active")
+					}
+				})
+			}
 
-            function addClassActiveToProgressBar() {
-                let choosenframe = Math.floor(Math.abs(carouselDataIn[nameOfElement].translationX / carouselDataIn[nameOfElement].oneFrame) % (carouselDataIn[nameOfElement].oneLenghtOfSlider / carouselDataIn[nameOfElement].oneFrame));
-                removeActiveClassFromChildren(".carousel-progress-bar-item.active")
-                document.querySelector("#carousel-progress-bar-item-" + choosenframe).classList.add("active")
-            }
+			function removeActiveClassFromChildren(name) {
+				let itemsWithActiveClass = document.querySelectorAll(name);
+				for (let i = 0; i < itemsWithActiveClass.length; i++) {
+					itemsWithActiveClass[i].classList.remove('active')
+				}
+			}
 
-            //firefox bug fix
-            carousel.querySelectorAll('.carousel-item').forEach(item => {
-                item.addEventListener('mousedown', (e) => e.preventDefault())
-            })
+			function calculateWidthForCarousel(nameOfElement) {
+				let carousel = document.querySelector(nameOfElement)
+				carouselDataIn[nameOfElement].oneLenghtOfSlider = carousel.offsetWidth / 2;
+				carouselDataIn[nameOfElement].oneFrame = carousel.parentElement.offsetWidth
+			}
 
-            window.addEventListener('resize', function (event) {
-                calculateWidthForCarousel(nameOfElement)
-                calculateProgressBar(nameOfElement)
-            });
+			function addMouseEventsToSlider(nameOfElement) {
+				const preventClickOnDrag = (e) => {
+					e.preventDefault();
+					e.stopImmediatePropagation();
+				}
 
-            addListenerMulti(carousel, 'mousedown touchstart', function (e) {
-                carousel.classList.add('active');
-                
-                carouselDataIn[nameOfElement].isMousedownActive = true;  
-                carouselDataIn[nameOfElement].isMousemoveActive = false;
-                carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x;
-            });
+				const pointerEventToXY = function (e) {
+					var coordinates = { x: 0, y: 0 };
+					if (e.type.includes("touch")) {
+						coordinates.x = e.changedTouches[0].pageX;
+						coordinates.y = e.changedTouches[0].pageY;
+					} else if (e.type.includes("mouse")) {
+						coordinates.x = e.pageX;
+						coordinates.y = e.pageY;
+					}
+					return coordinates;
+				};
 
-            
-            addListenerMulti(carousel, 'mouseleave touchcancel', function (e) {
-                carousel.classList.remove('active');
+				const carousel = document.querySelector(nameOfElement);
+				const carouselContainer = document.querySelector(".carousel-container");
 
-                carouselDataIn[nameOfElement].isMousedownActive = false;
+				carouselContainer.addEventListener("click", function (e) {
+					if (e.target.matches(".carousel-arrow.right")) {
+						let translation = (-carouselDataIn[nameOfElement].oneFrame + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
+						carousel.style.transform = "translateX(" + translation + "px)";
+						carouselDataIn[nameOfElement].translationX = translation;
+						addClassActiveToProgressBar()
+					}
 
-                addClassActiveToProgressBar() 
-            });
+					if (e.target.matches(".carousel-arrow.left")) {
+						let translation = (-(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame) + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
+						carousel.style.transform = "translateX(" + translation + "px)";
+						carouselDataIn[nameOfElement].translationX = translation;
+						addClassActiveToProgressBar()
+					}
+				})
 
-             
-            addListenerMulti(carousel, 'mouseup touchend', function (e) {
-                carousel.classList.remove('active');
-                
-                carouselDataIn[nameOfElement].isMousedownActive = false;
+				function addClassActiveToProgressBar() {
+					let choosenframe = Math.floor(Math.abs(carouselDataIn[nameOfElement].translationX / carouselDataIn[nameOfElement].oneFrame) % (carouselDataIn[nameOfElement].oneLenghtOfSlider / carouselDataIn[nameOfElement].oneFrame));
+					removeActiveClassFromChildren(".carousel-progress-bar-item.active")
+					document.querySelector("#carousel-progress-bar-item-" + choosenframe).classList.add("active")
+				}
 
-                if (carouselDataIn[nameOfElement].isMousemoveActive) {
-                    carousel.addEventListener("click", preventClickOnDrag);
-                } else {
-                    carousel.removeEventListener("click", preventClickOnDrag);
-                }
+				//firefox bug fix
+				carousel.querySelectorAll('.carousel-item').forEach(item => {
+					item.addEventListener('mousedown', (e) => e.preventDefault())
+				})
 
-                carouselDataIn[nameOfElement].isMousemoveActive = false;
+				window.addEventListener('resize', function (event) {
+					calculateWidthForCarousel(nameOfElement)
+					calculateProgressBar(nameOfElement)
+				});
 
-                removeActiveClassFromChildren(".carousel-progress-bar-item.active")
-                addClassActiveToProgressBar() 
+				addListenerMulti(carousel, 'mousedown touchstart', function (e) {
+					carousel.classList.add('active');
 
-            });
+					carouselDataIn[nameOfElement].isMousedownActive = true;
+					carouselDataIn[nameOfElement].isMousemoveActive = false;
+					carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x;
+				});
 
-            addListenerMulti(carousel, 'mousemove touchmove', function (e) {
-                if (!carouselDataIn[nameOfElement].isMousedownActive) {
-                    carouselDataIn[nameOfElement].isMousemoveActive = false;
-                    carousel.removeEventListener("click", preventClickOnDrag);
-                    return;
-                }
 
-                if (carouselDataIn[nameOfElement].isMousedownActive) {
-                    e.preventDefault();
+				addListenerMulti(carousel, 'mouseleave touchcancel', function (e) {
+					carousel.classList.remove('active');
 
-                    carouselDataIn[nameOfElement].isMousemoveActive = true;
-                    carouselDataIn[nameOfElement].translationX = ((pointerEventToXY(e).x - carouselDataIn[nameOfElement].mouseStartX) * 1) + carouselDataIn[nameOfElement].translationX;
-                    
-                    if (carouselDataIn[nameOfElement].translationX > 0 ) {
-                        carousel.style.transform = "translateX(" + -carouselDataIn[nameOfElement].oneLenghtOfSlider + "px)";
-                        carouselDataIn[nameOfElement].translationX = -carouselDataIn[nameOfElement].oneLenghtOfSlider;
-                    } else if (carouselDataIn[nameOfElement].translationX < -(carouselDataIn[nameOfElement].oneLenghtOfSlider + (carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame))) {
-                        carousel.style.transform = "translateX(" + -(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame) + "px)";
-                        carouselDataIn[nameOfElement].translationX = -(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame);
-                    } else {
-                        carousel.style.transform = "translateX(" + carouselDataIn[nameOfElement].translationX + "px)";
-                    }
+					carouselDataIn[nameOfElement].isMousedownActive = false;
 
-                    carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x;
-                }
-            });
-        }
+					addClassActiveToProgressBar()
+				});
 
-        function addListenerMulti(el, s, fn) {
-            s.split(' ').forEach(e => el.addEventListener(e, fn, false));
-        }
 
-        function duplicateChildren(nameOfElement) {
-            let parent = document.querySelector(nameOfElement)
-            carouselDataIn[nameOfElement].children = [...parent.childNodes];
+				addListenerMulti(carousel, 'mouseup touchend', function (e) {
+					carousel.classList.remove('active');
 
-            for (let i = 0; i < carouselDataIn[nameOfElement].children.length; i++) {
-                if (carouselDataIn[nameOfElement].children[i].nodeType === document.ELEMENT_NODE) {
-                    parent.appendChild(carouselDataIn[nameOfElement].children[i].cloneNode(true));
-                }
-            }
-        };
-    }
-         
-    </script>
+					carouselDataIn[nameOfElement].isMousedownActive = false;
+
+					if (carouselDataIn[nameOfElement].isMousemoveActive) {
+						carousel.addEventListener("click", preventClickOnDrag);
+					} else {
+						carousel.removeEventListener("click", preventClickOnDrag);
+					}
+
+					carouselDataIn[nameOfElement].isMousemoveActive = false;
+
+					removeActiveClassFromChildren(".carousel-progress-bar-item.active")
+					addClassActiveToProgressBar()
+
+				});
+
+				addListenerMulti(carousel, 'mousemove touchmove', function (e) {
+					if (!carouselDataIn[nameOfElement].isMousedownActive) {
+						carouselDataIn[nameOfElement].isMousemoveActive = false;
+						carousel.removeEventListener("click", preventClickOnDrag);
+						return;
+					}
+
+					if (carouselDataIn[nameOfElement].isMousedownActive) {
+						e.preventDefault();
+
+						carouselDataIn[nameOfElement].isMousemoveActive = true;
+						carouselDataIn[nameOfElement].translationX = ((pointerEventToXY(e).x - carouselDataIn[nameOfElement].mouseStartX) * 1) + carouselDataIn[nameOfElement].translationX;
+
+						if (carouselDataIn[nameOfElement].translationX > 0) {
+							carousel.style.transform = "translateX(" + -carouselDataIn[nameOfElement].oneLenghtOfSlider + "px)";
+							carouselDataIn[nameOfElement].translationX = -carouselDataIn[nameOfElement].oneLenghtOfSlider;
+						} else if (carouselDataIn[nameOfElement].translationX < -(carouselDataIn[nameOfElement].oneLenghtOfSlider + (carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame))) {
+							carousel.style.transform = "translateX(" + -(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame) + "px)";
+							carouselDataIn[nameOfElement].translationX = -(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame);
+						} else {
+							carousel.style.transform = "translateX(" + carouselDataIn[nameOfElement].translationX + "px)";
+						}
+
+						carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x;
+					}
+				});
+			}
+
+			function addListenerMulti(el, s, fn) {
+				s.split(' ').forEach(e => el.addEventListener(e, fn, false));
+			}
+
+			function duplicateChildren(nameOfElement) {
+				let parent = document.querySelector(nameOfElement)
+				carouselDataIn[nameOfElement].children = [...parent.childNodes];
+
+				for (let i = 0; i < carouselDataIn[nameOfElement].children.length; i++) {
+					if (carouselDataIn[nameOfElement].children[i].nodeType === document.ELEMENT_NODE) {
+						parent.appendChild(carouselDataIn[nameOfElement].children[i].cloneNode(true));
+					}
+				}
+			};
+		}
+
+	</script>
 </body>
 
 </html>
