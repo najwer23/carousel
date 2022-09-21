@@ -27,6 +27,8 @@
 
 		.carousel-content {
 			display: flex;
+			transform: scale(1);
+    	transition: transform .5s cubic-bezier(.25,.46,.45,.94)
 		}
 
 		.carousel-content img {
@@ -35,8 +37,8 @@
 		}
 
 		.carousel-arrow {
-			width: 50px;
-			background-color: goldenrod;
+			width: 100px;
+			background-color: rgba(0, 0, 0, 0);
 			position: absolute;
 			height: 100%;
 			z-index: 2;
@@ -62,8 +64,20 @@
 			user-select: none;
 		}
 
-		.arrow-text {
-			margin-top: -11px;
+		.arrow-n-right {
+			transform: rotate(45deg);
+			width: 40px;
+			height: 40px;
+			border-right: solid 2px black;
+			border-top: solid 2px black;
+		}
+
+		.arrow-n-left {
+			transform: rotate(225deg);
+			width: 40px;
+			height: 40px;
+			border-right: solid 2px black;
+			border-top: solid 2px black;
 		}
 
 		.carousel-arrow.left {
@@ -104,6 +118,17 @@
 			margin-right: 0;
 		}
 
+
+		@media only screen and (max-width: 600px) {
+			.carousel-container {
+				width: 90%
+			}
+
+			.carousel-arrow {
+				display: none;
+			}
+		}
+
 	</style>
 </head>
 
@@ -111,23 +136,40 @@
 	<main>
 		<section>
 			<div class="carousel-container">
-				<div class="carousel-arrow left">
-					<div class="carousel-arrow left arrow-text">&#8249;</div>
-				</div>
+
+
 				<div id="carousel1" class="carousel-content">
 					<div class="carousel-item">
-						<picture><img src="https://via.placeholder.com/150/0000FF/808080?text=1?color=red"></picture>
+						<picture>
+							<img src="https://via.placeholder.com/150/0000FF/808080?text=1?color=red">
+						</picture>
 					</div>
 					<div class="carousel-item">
-						<picture><img src="https://via.placeholder.com/150?text=2"></picture>
+						<picture>
+							<img src="https://via.placeholder.com/150?text=2">
+						</picture>
 					</div>
 					<div class="carousel-item">
-						<picture><img src="https://via.placeholder.com/150?text=3"></picture>
+						<picture>
+							<img src="https://via.placeholder.com/150?text=3">
+						</picture>
 					</div>
 				</div>
-				<div class="carousel-arrow right">
-					<div class="carousel-arrow right arrow-text">&#8250;</div>
+
+				<div class="carousel-controls">
+					<div class="carousel-arrow left">
+						<div class="carousel-arrow left arrow-text">
+							<div class="arrow-n-left"></div>
+						</div>
+					</div>
+					<div class="carousel-arrow right">
+						<div class="carousel-arrow right arrow-text">
+							<div class="arrow-n-right"></div>
+						</div>
+					</div>
 				</div>
+
+
 			</div>
 			<div id="carousel1-progress-bar" class="carousel-progress-bar"></div>
 		</section>
@@ -164,7 +206,6 @@
 
 				for (let i = 0; i < carouselDataInKeys.length; i++) {
 					if (document.querySelector(carouselDataInKeys[i])) {
-						duplicateChildren(carouselDataInKeys[i])
 						calculateWidthForCarousel(carouselDataInKeys[i]);
 						calculateProgressBar(carouselDataInKeys[i])
 						addMouseEventsToSlider(carouselDataInKeys[i]);
@@ -215,8 +256,14 @@
 
 			function calculateWidthForCarousel(nameOfElement) {
 				let carousel = document.querySelector(nameOfElement)
-				carouselDataIn[nameOfElement].oneLenghtOfSlider = carousel.offsetWidth / 2;
 				carouselDataIn[nameOfElement].oneFrame = carousel.parentElement.offsetWidth
+				carouselDataIn[nameOfElement].oneLenghtOfSlider = 0;
+				document.querySelectorAll(".carousel-item img").forEach(x=>{
+					x.style.width = carouselDataIn[nameOfElement].oneFrame + "px";
+					carouselDataIn[nameOfElement].oneLenghtOfSlider += carouselDataIn[nameOfElement].oneFrame;
+				})
+
+				console.log(carouselDataIn[nameOfElement].oneLenghtOfSlider)
 			}
 
 			function addMouseEventsToSlider(nameOfElement) {
@@ -241,20 +288,24 @@
 				const carouselContainer = document.querySelector(".carousel-container");
 
 				carouselContainer.addEventListener("click", function (e) {
-					if (e.target.matches(".carousel-arrow.right")) {
-						let translation = (-carouselDataIn[nameOfElement].oneFrame + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
-						carousel.style.transform = "translateX(" + translation + "px)";
-						carouselDataIn[nameOfElement].translationX = translation;
-						addClassActiveToProgressBar()
+					if (e.target.closest(".carousel-arrow.right")) {
+						nextPicture()
 					}
 
-					if (e.target.matches(".carousel-arrow.left")) {
+					if (e.target.closest(".carousel-arrow.left")) {
 						let translation = (-(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame) + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
 						carousel.style.transform = "translateX(" + translation + "px)";
 						carouselDataIn[nameOfElement].translationX = translation;
 						addClassActiveToProgressBar()
 					}
 				})
+
+				function nextPicture() {
+					let translation = (-carouselDataIn[nameOfElement].oneFrame + carouselDataIn[nameOfElement].translationX) % carouselDataIn[nameOfElement].oneLenghtOfSlider;
+					carousel.style.transform = "translateX(" + translation + "px)";
+					carouselDataIn[nameOfElement].translationX = translation;
+					addClassActiveToProgressBar()
+				}
 
 				function addClassActiveToProgressBar() {
 					let choosenframe = Math.floor(Math.abs(carouselDataIn[nameOfElement].translationX / carouselDataIn[nameOfElement].oneFrame) % (carouselDataIn[nameOfElement].oneLenghtOfSlider / carouselDataIn[nameOfElement].oneFrame));
@@ -272,84 +323,55 @@
 					calculateProgressBar(nameOfElement)
 				});
 
-				addListenerMulti(carousel, 'mousedown touchstart', function (e) {
-					carousel.classList.add('active');
 
-					carouselDataIn[nameOfElement].isMousedownActive = true;
-					carouselDataIn[nameOfElement].isMousemoveActive = false;
-					carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x;
-				});
+				var THRESHOLD = 15;
+				var x = y = x1 = y1 = 0;
+				var recordedTime = (new Date).getTime();
+				setSwipesEvent(carousel)
 
+				function setSwipesEvent(element) {
+					element.addEventListener("touchstart", function (e) {
+						50 < (new Date).getTime() - recordedTime && (x = parseInt(e.changedTouches[0].pageX, 10), y = parseInt(e.changedTouches[0].pageY, 10), recordedTime = (new Date).getTime());
+					});
 
-				addListenerMulti(carousel, 'mouseleave touchcancel', function (e) {
-					carousel.classList.remove('active');
+					element.addEventListener("touchend", function (e) {
+						x1 = x; y1 = y; x = parseInt(e.changedTouches[0].pageX, 10); y = parseInt(e.changedTouches[0].pageY, 10); recordedTime = (new Date).getTime();
+						direct(element);
+					});
 
-					carouselDataIn[nameOfElement].isMousedownActive = false;
+					element.addEventListener("mousedown", function (e) {
+						50 < (new Date).getTime() - recordedTime && (x = e.clientX, y = e.clientY, recordedTime = (new Date).getTime());
+					});
 
-					addClassActiveToProgressBar()
-				});
+					element.addEventListener("mouseup", function (e) {
+						x1 = x; y1 = y; x = e.clientX; y = e.clientY; recordedTime = (new Date).getTime();
+						direct(element);
+					});
+				}
 
-
-				addListenerMulti(carousel, 'mouseup touchend', function (e) {
-					carousel.classList.remove('active');
-
-					carouselDataIn[nameOfElement].isMousedownActive = false;
-
-					if (carouselDataIn[nameOfElement].isMousemoveActive) {
-						carousel.addEventListener("click", preventClickOnDrag);
-					} else {
-						carousel.removeEventListener("click", preventClickOnDrag);
-					}
-
-					carouselDataIn[nameOfElement].isMousemoveActive = false;
-
-					removeActiveClassFromChildren(".carousel-progress-bar-item.active")
-					addClassActiveToProgressBar()
-
-				});
-
-				addListenerMulti(carousel, 'mousemove touchmove', function (e) {
-					if (!carouselDataIn[nameOfElement].isMousedownActive) {
-						carouselDataIn[nameOfElement].isMousemoveActive = false;
-						carousel.removeEventListener("click", preventClickOnDrag);
-						return;
-					}
-
-					if (carouselDataIn[nameOfElement].isMousedownActive) {
-						e.preventDefault();
-
-						carouselDataIn[nameOfElement].isMousemoveActive = true;
-						carouselDataIn[nameOfElement].translationX = ((pointerEventToXY(e).x - carouselDataIn[nameOfElement].mouseStartX) * 1) + carouselDataIn[nameOfElement].translationX;
-
-						if (carouselDataIn[nameOfElement].translationX > 0) {
-							carousel.style.transform = "translateX(" + -carouselDataIn[nameOfElement].oneLenghtOfSlider + "px)";
-							carouselDataIn[nameOfElement].translationX = -carouselDataIn[nameOfElement].oneLenghtOfSlider;
-						} else if (carouselDataIn[nameOfElement].translationX < -(carouselDataIn[nameOfElement].oneLenghtOfSlider + (carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame))) {
-							carousel.style.transform = "translateX(" + -(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame) + "px)";
-							carouselDataIn[nameOfElement].translationX = -(carouselDataIn[nameOfElement].oneLenghtOfSlider - carouselDataIn[nameOfElement].oneFrame);
-						} else {
-							carousel.style.transform = "translateX(" + carouselDataIn[nameOfElement].translationX + "px)";
+				function direct(element) {
+					if (!(parseInt(Math.sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1)), 10) < THRESHOLD)) {
+						if (x1 - x > Math.abs(y - y1)) {
+							//console.log("left")
+							nextPicture()
 						}
-
-						carouselDataIn[nameOfElement].mouseStartX = pointerEventToXY(e).x;
-					}
-				});
-			}
-
-			function addListenerMulti(el, s, fn) {
-				s.split(' ').forEach(e => el.addEventListener(e, fn, false));
-			}
-
-			function duplicateChildren(nameOfElement) {
-				let parent = document.querySelector(nameOfElement)
-				carouselDataIn[nameOfElement].children = [...parent.childNodes];
-
-				for (let i = 0; i < carouselDataIn[nameOfElement].children.length; i++) {
-					if (carouselDataIn[nameOfElement].children[i].nodeType === document.ELEMENT_NODE) {
-						parent.appendChild(carouselDataIn[nameOfElement].children[i].cloneNode(true));
+						if (x - x1 > Math.abs(y - y1)) {
+							//console.log("right")
+							prevPicture()
+						}
+						if (y1 - y > Math.abs(x - x1)) {
+							//console.log("up")
+						}
+						if (y - y1 > Math.abs(x - x1)) {
+							//console.log("down")
+						}
+					} else {
+						if (element.id == f1.id) {
+							//if click
+						}
 					}
 				}
-			};
+			}
 		}
 
 	</script>

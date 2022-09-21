@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html lang="PL">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Mariusz Najwer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="author" content="Mariusz Najwer">
+	<meta name="description" content="Mariusz Najwer - carousel" />
+	<meta name="keywords" content="Mariusz Najwer, najwer23" />
+
+	<style>
+		body {
+			background: grey;
+		}
+
+	</style>
+</head>
+
+<body>
+	<main>
+		<section>
+
+
+
+
+			<div id="custom-gallery" class="custom-gallery">
+				<div id="wrapper-custom-gallery-vertical" class="wrapper-custom-gallery-vertical"></div>
+				<div id="wrapper-custom-gallery" class="wrapper-custom-gallery">
+					<div id="custom-gallery-stage" class="custom-gallery-stage">
+						<div id="custom-gallery-arrow-left" class="arrows L">
+							<div class="arrow-left-G"></div>
+						</div>
+						<div id="custom-gallery-arrow-right" class="arrows R">
+							<div class="arrow-right-G"></div>
+						</div>
+						<div id="custom-gallery-foto1" class="custom-gallery-foto1"></div>
+					</div>
+				</div>
+			</div>
+			<div id="custom-gallery-circles" class="custom-gallery-circles"></div>
+			<div id="img-for-popup" style="display: none"></div>
+
+
+
+			<div id="cf7" class="shadow">
+				<img class='opaque' src="https://via.placeholder.com/150?text=1" />
+				<img src="https://via.placeholder.com/150?text=2" />
+				<img src="https://via.placeholder.com/150?text=3" />
+				<img src="https://via.placeholder.com/150?text=4" />
+			</div>
+			<p id="cf7_controls">
+				<span class="selected">Image 1</span>
+				<span>Image 2</span>
+				<span>Image 3</span>
+				<span>Image 4</span>
+			</p>
+
+
+			<!-- https://via.placeholder.com/150?text=3 -->
+
+
+
+	</main>
+
+
+	<style>
+		p#cf7_controls {
+			text-align: center;
+		}
+
+		#cf7_controls span {
+			padding-right: 2em;
+			cursor: pointer;
+		}
+
+		#cf7 {
+			position: relative;
+			height: 281px;
+			width: 450px;
+			margin: 0 auto 10px;
+		}
+
+		#cf7 img {
+			position: absolute;
+			left: 0;
+			-webkit-transition: opacity 1s ease-in-out;
+			-moz-transition: opacity 1s ease-in-out;
+			-o-transition: opacity 1s ease-in-out;
+			transition: opacity 1s ease-in-out;
+			opacity: 0;
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+			filter: alpha(opacity=0);
+		}
+
+		#cf7 img.opaque {
+			opacity: 1;
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+			filter: alpha(opacity=1);
+		}
+
+	</style>
+
+	<script>
+	$(document).ready(function () {
+		$("#cf7_controls").on('click', 'span', function () {
+			$("#cf7 img").removeClass("opaque");
+
+			var newImage = $(this).index();
+
+			$("#cf7 img").eq(newImage).addClass("opaque");
+
+			$("#cf7_controls span").removeClass("selected");
+			$(this).addClass("selected");
+		});
+	});
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<script>
+
+		var IMGS = [
+			"https://via.placeholder.com/150?text=1",
+			"https://via.placeholder.com/150?text=2",
+			"https://via.placeholder.com/150?text=3",
+		]
+
+		const arrowLeft = document.querySelector("#custom-gallery-arrow-left");
+		const arrowRight = document.querySelector("#custom-gallery-arrow-right");
+		const f1 = document.querySelector("#custom-gallery-foto1");
+		var PICTURE_ID = 0;
+		var PICTURES = IMGS_ARR_WEBP;
+
+		setUpStage();
+
+		arrowLeft.addEventListener("click", function () {
+			prevPicture();
+		})
+
+		arrowRight.addEventListener("click", function () {
+			nextPicture();
+		})
+
+
+		function nextPicture() {
+			PICTURE_ID++;
+			PICTURE_ID = (PICTURE_ID < 0) ? PICTURES.length + (PICTURE_ID % PICTURES.length) : (PICTURE_ID) % PICTURES.length
+			f1.setAttribute("style", "background-image: url('" + PICTURES[PICTURE_ID] + "')");
+			const f2 = document.querySelector("#custom-gallery-big-img-foto1");
+			if (f2) {
+				f2.setAttribute("style", "background-image: url('" + IMGS_ARR_JPG[PICTURE_ID] + "')");
+			}
+			setActiveElements(PICTURE_ID)
+		}
+
+		function prevPicture() {
+			PICTURE_ID--;
+			PICTURE_ID = (PICTURE_ID < 0) ? (PICTURES.length + (PICTURE_ID % PICTURES.length)) : (PICTURE_ID % PICTURES.length);
+			f1.setAttribute("style", "background-image: url('" + PICTURES[PICTURE_ID] + "')");
+			const f2 = document.querySelector("#custom-gallery-big-img-foto1");
+			if (f2) {
+				f2.setAttribute("style", "background-image: url('" + IMGS_ARR_JPG[PICTURE_ID] + "')");
+			}
+			setActiveElements(PICTURE_ID)
+		}
+
+		var THRESHOLD = 15;
+		var x = y = x1 = y1 = 0;
+		var recordedTime = (new Date).getTime();
+		setSwipesEvent(f1)
+
+		function setSwipesEvent(element) {
+			element.addEventListener("touchstart", function (e) {
+				50 < (new Date).getTime() - recordedTime && (x = parseInt(e.changedTouches[0].pageX, 10), y = parseInt(e.changedTouches[0].pageY, 10), recordedTime = (new Date).getTime());
+			});
+
+			element.addEventListener("touchend", function (e) {
+				x1 = x; y1 = y; x = parseInt(e.changedTouches[0].pageX, 10); y = parseInt(e.changedTouches[0].pageY, 10); recordedTime = (new Date).getTime();
+				direct(element);
+			});
+
+			element.addEventListener("mousedown", function (e) {
+				50 < (new Date).getTime() - recordedTime && (x = e.clientX, y = e.clientY, recordedTime = (new Date).getTime());
+			});
+
+			element.addEventListener("mouseup", function (e) {
+				x1 = x; y1 = y; x = e.clientX; y = e.clientY; recordedTime = (new Date).getTime();
+				direct(element);
+			});
+		}
+
+		function direct(element) {
+			if (!(parseInt(Math.sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1)), 10) < THRESHOLD)) {
+				if (x1 - x > Math.abs(y - y1)) {
+					//console.log("left")
+					nextPicture()
+				}
+				if (x - x1 > Math.abs(y - y1)) {
+					//console.log("right")
+					prevPicture()
+				}
+				if (y1 - y > Math.abs(x - x1)) {
+					//console.log("up")
+				}
+				if (y - y1 > Math.abs(x - x1)) {
+					//console.log("down")
+				}
+			} else {
+				if (element.id == f1.id) {
+					//if click
+				}
+			}
+		}
+
+
+
+	</script>
+</body>
+
+</html>
